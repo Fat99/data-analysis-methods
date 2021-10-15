@@ -27,7 +27,7 @@ class MyOwnLogisticRegression:
         self.b.grad = T.zeros(1)
         self.b.retain_grad()
 
-    def fit(self, times, train_x, train_y, lrn_rate = 0.0001):
+    def fit(self, times, train_x, train_y, lrn_rate = 0.05):
         self.initialize_b_and_w()
         len_data = len(train_x)
         indices = np.arange(len_data)
