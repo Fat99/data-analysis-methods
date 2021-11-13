@@ -101,26 +101,9 @@ class MyDecisionTree:
         self.classes = np.unique(target_labels)
         train = np.column_stack((train_data, target_labels))
         self.root = self.get_split(train)
-        # print('init root = ', self.root)
+       
         self.split(self.root, 1)
         return self.root
-
-    def predict_column(self, node, column):
-        if column[self.root['index']] <= self.root['value']:
-            node = node['left']
-            if node == self.classes[0]:
-                return node
-            node['left'] = self.predict_column(node, column)
-            return node['left']
-
-        else:
-            node = node['right']
-            if node == self.classes[1]:
-                # print('1 - ', node == self.classes[1])
-                return node
-            # print('2 - ', node)
-            node['right'] = self.predict_column(node, column)
-            return node['right']
 
     def predict_one_column(self, node, row):
         if row[node['index']] < node['value']:
@@ -141,27 +124,3 @@ class MyDecisionTree:
             classes.append(self.predict_one_column(self.root, column))
 
         return np.array(classes)
-
-
-# a = MyDecisionTree(1, 1)
-#
-# dataset1 = np.array([[2.771244718, 1.784783929],
-#                      [1.728571309, 1.169761413],
-#                      [3.678319846, 2.81281357],
-#                      [3.961043357, 2.61995032],
-#                      [2.999208922, 2.209014212],
-#                      [7.497545867, 3.162953546],
-#                      [9.00220326, 3.339047188],
-#                      [7.444542326, 0.476683375],
-#                      [10.12493903, 3.234550982],
-#                      [6.642287351, 3.319983761]])
-#
-# classes1 = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
-#
-# dataset2 = np.array([[2.771244718, 1.784783929],
-#                      [6.642287351, 3.319983761]])
-# classes2 = np.array([0, 1])
-#
-# print(a.fit_data(dataset1, classes1))
-#
-# print(a.predict_data(np.array([[5, 2], [10, 3]])))
